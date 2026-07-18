@@ -67,6 +67,7 @@ Run `scripts/validate_package.py` with the actual count and ratio overrides. A r
 
 ## Failure and degradation rules
 
+- In every pre-generation plan, name the selected or expected raster backend and state the no-backend degradation path, even when the current runtime appears to have a backend.
 - If no raster backend is available, stop after analysis, risk notes, outline, and saved prompts. Explicitly state that PNGs, final HTML, and ZIP were not produced.
 - If one image fails, retry that image once and preserve successful images.
 - If Chinese labels are wrong, create a corrected versioned prompt and regenerate; never patch the bitmap.

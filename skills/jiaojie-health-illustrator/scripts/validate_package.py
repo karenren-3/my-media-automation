@@ -118,7 +118,10 @@ def validate_package(
         html = html_path.read_text(encoding="utf-8")
         if "WECHATIMGPH_" in html:
             errors.append("HTML contains WECHATIMGPH placeholder")
-        for source in html_image_sources(html):
+        html_sources = html_image_sources(html)
+        if len(html_sources) != len(pngs):
+            errors.append(f"HTML image count {len(html_sources)} does not match PNG count {len(pngs)}")
+        for source in html_sources:
             target = _local_target(html_path, source)
             if target is not None and not target.is_file():
                 errors.append(f"missing HTML image: {source}")

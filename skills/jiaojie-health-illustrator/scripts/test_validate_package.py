@@ -79,6 +79,11 @@ class ValidatePackageTests(unittest.TestCase):
         )
         self.assert_has_error(validate_package(self.package), "missing HTML image")
 
+    def test_html_with_no_images_fails(self) -> None:
+        html_path = self.package / "睡眠节律_公众号可复制版.html"
+        html_path.write_text("<p>正文仍在，但图片全部丢失</p>\n", encoding="utf-8")
+        self.assert_has_error(validate_package(self.package), "HTML image count")
+
     def test_explicit_image_count_override_passes(self) -> None:
         (self.imgs / "03-sleep.png").unlink()
         (self.prompts / "03-sleep.md").unlink()

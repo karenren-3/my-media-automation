@@ -13,11 +13,15 @@
 
 ## Claude Code
 
+> **重点限制：Claude Code 没有 Codex 原生 `imagegen`。仅安装本 Skill 不等于具备出图能力。** 未另外配置位图后端时，Claude Code 只能完成健康表述核查、配图提纲和提示词文件，不能生成 PNG，也不能把任务描述为“完整公众号配图发布包”。
+
 - 项目安装：`<project>/.claude/skills/jiaojie-health-illustrator/`。
 - 个人安装：`~/.claude/skills/jiaojie-health-illustrator/`。
 - Claude Code 读取 `SKILL.md` 和相对引用；`agents/openai.yaml` 是 Codex 元数据，可以忽略。
 - 完整出图需要可调用的位图后端，例如 `baoyu-image-gen`、图像 MCP 工具或其他原生图像工具。
 - 后端必须能生成或导出 PNG，并允许代理把结果保存到发布包目录。
+- 上传微信公众号草稿箱还需要单独安装 `baoyu-post-to-wechat`，并具备 Bun、Chrome 和已登录的公众号会话。Claude Code 本身不会提供这些登录状态或发布权限。
+- 如果自动保存无法独立验证，必须停在已填充的编辑页让用户手动保存；不得把用户手动保存描述成自动保存成功。
 
 ## 后端选择
 
@@ -42,4 +46,4 @@
 
 ## 测试边界
 
-v1 完整验证目标为 Codex。本 Skill 的文件结构和 Python 验证器可用于 Claude Code，但实际出图质量取决于其后端。Claude.ai 与 Claude API 的文件、网络和执行环境不同，不在 v1 的验证范围内。
+完整验证目标为 Codex。本 Skill 的文件结构和 Python 验证器可用于 Claude Code，但实际出图质量取决于其后端。Claude.ai 与 Claude API 的文件、网络和执行环境不同，不在当前验证范围内。

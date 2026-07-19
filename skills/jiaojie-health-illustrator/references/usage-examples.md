@@ -36,6 +36,24 @@ $jiaojie-health-illustrator 为这篇营养科普只生成正文配图和已保�
 
 此时报告必须说明这是局部交付，不称为完整公众号发布包。
 
+## 6. 生成后上传微信公众号草稿箱
+
+```text
+$jiaojie-health-illustrator 为这篇健康科普生成完整发布包。验证通过后先让我确认，再上传到微信公众号草稿箱；不要群发。
+```
+
+上传是独立的可选阶段。必须先交付并验证本地发布包，再取得一次操作确认。向 `baoyu-post-to-wechat` 传递派生 Markdown，不传预转换 HTML。
+
+作者或编辑者依次读取：本次请求、文章 frontmatter、所选公众号账户配置；都没有时留空。公开版本不得默认写入 Skill 作者或其他固定身份。
+
+## 7. Claude Code 无位图后端时
+
+```text
+$jiaojie-health-illustrator 请在 Claude Code 中为这篇文章制作公众号配图和发布包。
+```
+
+先检查是否存在可用的 `baoyu-image-gen`、图像 MCP 或其他位图后端。没有后端时，只交付健康核查、`imgs/outline.md` 和 `imgs/prompts/*.md`，并明确说明 PNG、带图 HTML 和 ZIP 未生成。不得用 SVG、HTML 或程序化绘图冒充成品。
+
 ## 不会触发
 
 - “把这篇科技新闻排成公众号 HTML”——非健康主题且只排版。

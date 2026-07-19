@@ -1,17 +1,21 @@
 ---
 name: jiaojie-health-illustrator
-description: Use when a user asks for WeChat illustrations, warm hand-drawn health infographics, or an illustrated publishing package for Chinese health-science or wellness content supplied as DOCX, Markdown, HTML, plain text, or pasted text.
+description: Use when a user asks for WeChat illustrations, warm hand-drawn health infographics, an illustrated publishing package, or an optional upload to the WeChat Official Account draft box for Chinese health-science or wellness content supplied as DOCX, Markdown, HTML, plain text, or pasted text.
 ---
 
 # Jiaojie Health Illustrator
 
 Create consistent raster illustrations and a verified local WeChat publishing package for Chinese health-science articles.
 
+## Important Claude Code limitation
+
+Claude Code does not provide Codex's native `imagegen`. A Claude Code installation can complete raster illustrations only when the user has separately configured an image-capable backend such as `baoyu-image-gen` or an image MCP tool. Without one, stop after the health review, illustration outline, and saved prompts; do not claim that PNGs, illustrated HTML, or the final ZIP were produced. Draft-box upload also requires the separate `baoyu-post-to-wechat` Skill, Bun, Chrome, and a logged-in WeChat Official Account session. Read [references/agent-compatibility.md](references/agent-compatibility.md) before promising a complete Claude Code run.
+
 ## Scope and exclusions
 
 Use this Skill for exercise, rehabilitation and function, nutrition, weight management and body composition, women's midlife and menopause health, sleep and circadian health, mental wellbeing and emotion regulation, and other lifestyle or preventive-health education.
 
-Do not use it for generic non-health articles, layout-only work, single posters, or video frames. Do not diagnose, prescribe individualized treatment, change medication, or provide crisis intervention. Generate local files only; never log in to, submit to, or mass-publish through WeChat unless the user separately asks for publishing.
+Do not use it for generic non-health articles, layout-only work, single posters, or video frames. Do not diagnose, prescribe individualized treatment, change medication, or provide crisis intervention. Generate local files by default. Upload to the WeChat draft box only when the user explicitly asks for it; never mass-publish or send to followers.
 
 Defaults are 3–5 illustrations, 3:2 landscape, warm cream paper, black hand-drawn linework, soft macaron color blocks, and concise Chinese labels. Explicit instructions in the current request override style, palette, ratio, count, and delivery scope.
 
@@ -20,7 +24,7 @@ Defaults are 3–5 illustrations, 3:2 landscape, warm cream paper, black hand-dr
 - Use `docx` to read `.docx` inputs. Preserve the original and extract or convert into a derivative Markdown file.
 - Use `baoyu-article-illustrator` to analyze positions, confirm settings, save prompts before generation, and resolve a raster backend.
 - In Codex, use the native `imagegen` raster backend unless the user explicitly chooses another available backend. In Claude Code, use an installed raster backend such as `baoyu-image-gen` or an image MCP tool.
-- Use `baoyu-post-to-wechat` for the local WeChat-compatible HTML workflow. Do not invoke its submit or publishing actions.
+- Use `baoyu-post-to-wechat` for local WeChat-compatible HTML and, only after an explicit user request, optional draft-box upload. Never invoke mass-publish or follower-send actions.
 - Browse authoritative sources when a health claim is unstable, consequential, high-risk, or cannot be checked reliably from the supplied article.
 
 ## Workflow
@@ -65,6 +69,14 @@ Recompute the source SHA-256 and confirm it matches the pre-work value.
 
 Run `scripts/validate_package.py` with the actual count and ratio overrides. A run is complete only when the validator prints `PACKAGE_OK`, the ZIP exists, and the original hash is unchanged. Report absolute paths and list any publishing action that was intentionally not performed.
 
+### 9. Optionally upload to the WeChat draft box
+
+Run this stage only when the user explicitly asks to upload, send, save, or publish the article to the WeChat Official Account draft box. Read [references/wechat-draft.md](references/wechat-draft.md). Obtain one action-time confirmation after the final package is validated, then pass the derivative Markdown—not the pre-converted HTML—to `baoyu-post-to-wechat`.
+
+Resolve author or editor identity in this order: current user instruction, article frontmatter, selected account configuration, then empty. Never hardcode the Skill creator's name, `Jiaojie`, or any other identity into a public installation.
+
+Treat draft saving and mass publishing as different actions. Stop after the draft is saved. Report whether saving was fully automatic, completed after user interaction, or unverified. Never infer automatic success merely because an `appmsgid` appears after the user manually clicked Save.
+
 ## Failure and degradation rules
 
 - In every pre-generation plan, name the selected or expected raster backend and state the no-backend degradation path, even when the current runtime appears to have a backend.
@@ -73,6 +85,8 @@ Run `scripts/validate_package.py` with the actual count and ratio overrides. A r
 - If Chinese labels are wrong, create a corrected versioned prompt and regenerate; never patch the bitmap.
 - If a consequential health claim cannot be verified, use conservative wording and mark it for professional review rather than inventing support.
 - If HTML conversion fails, preserve Markdown and images but do not call the result a complete publishing package.
+- If draft upload fails, preserve the validated local package and state that only the optional draft stage failed.
+- If automatic draft saving is not independently confirmed, leave the populated editor open for manual saving and report the result as unverified until the user confirms it.
 - If a dependency is missing, name it precisely and request authorization before installing a locked dependency.
 
 ## Reference routing
@@ -82,4 +96,5 @@ Run `scripts/validate_package.py` with the actual count and ratio overrides. A r
 - Read [references/prompt-recipes.md](references/prompt-recipes.md) before writing prompts.
 - Read [references/output-contract.md](references/output-contract.md) before creating delivery files or validating a package.
 - Read [references/agent-compatibility.md](references/agent-compatibility.md) when selecting a backend or running outside Codex.
+- Read [references/wechat-draft.md](references/wechat-draft.md) before any login, upload, or draft-save action.
 - Read [references/usage-examples.md](references/usage-examples.md) when the requested trigger or override behavior is ambiguous.

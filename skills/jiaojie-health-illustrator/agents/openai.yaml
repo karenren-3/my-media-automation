@@ -1,0 +1,4 @@
+interface:
+  display_name: "Jiaojie Health Illustrator"
+  short_description: "为中文健康科普生成手绘配图、公众号发布包及可选草稿箱上传"
+  default_prompt: "$jiaojie-health-illustrator 为这篇健康科普文章生成3–5张配图和公众号发布包；如需上传草稿箱，请先让我确认。"

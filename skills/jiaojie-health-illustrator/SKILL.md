@@ -69,7 +69,15 @@ Recompute the source SHA-256 and confirm it matches the pre-work value.
 
 Run `scripts/validate_package.py` with the actual count and ratio overrides. A run is complete only when the validator prints `PACKAGE_OK`, the ZIP exists, and the original hash is unchanged. Report absolute paths and list any publishing action that was intentionally not performed.
 
-### 9. Optionally upload to the WeChat draft box
+### 9. Run the self-growth loop
+
+Read [references/self-growth.md](references/self-growth.md) after each task unless the user says “本次不记录成长数据”. Generate a package-local `growth/retrospective.md` that records evidence-based observations about health wording, illustrations, layout, validation, and draft saving. Extract preference candidates separately from confirmed preferences; apply only confirmed preferences on later tasks.
+
+Keep growth records local. Never record article text, credentials, cookies, tokens, or unnecessary personal health information. Do not upload growth records automatically.
+
+Treat public Skill changes as a separate C-class action. If a candidate improvement might be promoted to the public Skill, first show the exact proposed rule, evidence, affected files, and version/release plan. Modify the public Skill, commit to GitHub, or create a release only after the user explicitly replies “确认”. Without that confirmation, keep the proposal local and marked `待确认`.
+
+### 10. Optionally upload to the WeChat draft box
 
 Run this stage only when the user explicitly asks to upload, send, save, or publish the article to the WeChat Official Account draft box. Read [references/wechat-draft.md](references/wechat-draft.md). Obtain one action-time confirmation after the final package is validated, then pass the derivative Markdown—not the pre-converted HTML—to `baoyu-post-to-wechat`.
 
@@ -97,4 +105,5 @@ Treat draft saving and mass publishing as different actions. Stop after the draf
 - Read [references/output-contract.md](references/output-contract.md) before creating delivery files or validating a package.
 - Read [references/agent-compatibility.md](references/agent-compatibility.md) when selecting a backend or running outside Codex.
 - Read [references/wechat-draft.md](references/wechat-draft.md) before any login, upload, or draft-save action.
+- Read [references/self-growth.md](references/self-growth.md) after each task for the A+B self-growth loop and the C-class public-update confirmation gate.
 - Read [references/usage-examples.md](references/usage-examples.md) when the requested trigger or override behavior is ambiguous.
